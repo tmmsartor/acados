@@ -42,7 +42,14 @@ set(BLASFEO_HEADERS_INSTALLATION_DIRECTORY "include/blasfeo/include" CACHE STRIN
 set(TARGET ${BLASFEO_TARGET} CACHE STRING "Set CPU architecture target" FORCE)
 set(MF "PANELMAJ" CACHE STRING "Matrix format" FORCE)
 set(BLAS_API OFF CACHE BOOL "Compile BLAS API" FORCE)
+
+if(CMAKE_CXX_COMPILER_ID MATCHES "GNU" OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+  string(REPLACE "-std=c99" "" CMAKE_C_FLAGS ${CMAKE_C_FLAGS})
+endif()
 add_subdirectory(blasfeo)
+if(CMAKE_CXX_COMPILER_ID MATCHES "GNU" OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c99")
+endif()
 
 # When HPIPM is used as part of acados
 set(HPIPM_BLASFEO_PATH ${BLASFEO_SRC_DIR} CACHE STRING "Set CPU architecture target" FORCE)
