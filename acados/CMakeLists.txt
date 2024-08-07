@@ -31,6 +31,17 @@
 
 set(PACKAGE_SO_VERSION "0.1")
 
+if(CMAKE_CXX_COMPILER_ID MATCHES "GNU" OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c99 -Wall -fdiagnostics-show-option")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x -Wall -fdiagnostics-show-option")
+elseif(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
+    set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} /MT")
+    set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MT")
+    if(BUILD_SHARED_LIBS MATCHES ON)
+        set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS 1)
+    endif()
+endif()
+
 include(CMakePackageConfigHelpers)
 
 # Build list with all source files to go into the acados library
